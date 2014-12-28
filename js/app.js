@@ -76,39 +76,48 @@ $(document).ready(function(){
 	$('form #guessButton').on('click',function(){
 		var theGuess = $("form #userGuess").val();
 		if(theGuess.length > 0){
+		 var isGuessAnum = evaluateGuess(theGuess);
+		 if(isGuessAnum){
 			var tooLarge = greaterThan100(theGuess);
+			var isRepeated = varifyRepeat(theGuess, arr);
+
 			if(tooLarge){
+
 				var message = "Must be from 1 to 100";
 				$("#feedback").text(message);
 				$("#userGuess").val("");
 			}
-			else{
+
+
+			else if(isRepeated){
+
 				
-			  var isGuessAnum = evaluateGuess(theGuess);
-			  if(isGuessAnum){
-			  	var isRepeated = varifyRepeat(theGuess, arr);
-			  	if(isRepeated){
-			  		repeatMsg = "Do Not Repeat Your Guess"
-			  		$("#feedback").text(repeatMsg);
-			  	}
+				repeatMsg = "Do Not Repeat Your Guess"
+		  		$("#feedback").text(repeatMsg);
+		  		$("form #userGuess").val("");
 
-			  	else{
-
-			  		arr.push(theGuess);
-					var result = guessRange(theGuess,secretNum);
-					$("#feedback").text(result);
-					$("#userGuess").val("");
-					$("#count").text(count);
-					count++
-					$('<li>'+theGuess+'</li>').appendTo("ul#guessList").hide().slideDown();
-				  }
-				}
-			  else{
-				var inform = "Please Enter an Integer"
-				$("#feedback").text(inform);
-				$("#userGuess").val("");
+		  		
 			  }
-			} 
+			else{
+
+				arr.push(theGuess);
+				var result = guessRange(theGuess,secretNum);
+				$("#feedback").text(result);
+				$("#userGuess").val("");
+				$("#count").text(count);
+				count++
+				$('<li>'+theGuess+'</li>').appendTo("ul#guessList").hide().slideDown();
+
+			  }
+
+			 }
+				
+		 else{
+			var inform = "Please Enter an Integer"
+			$("#feedback").text(inform);
+			$("#userGuess").val("");
+		   }
+		 
 		}
 		
 		else{
@@ -116,7 +125,7 @@ $(document).ready(function(){
 			$("#feedback").text(alertMsg);
 			$("#userGuess").val("");
 
-		}
+		 }
 
 	});
 
