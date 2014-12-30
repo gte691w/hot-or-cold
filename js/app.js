@@ -76,7 +76,7 @@ $(document).ready(function(){
 	var arr =[];
 	$('form #guessButton').on('click',function(){
 		var theGuess = $("form #userGuess").val();
-		if(theGuess.length > 0){
+		if(theGuess.trim().length > 0){
 		 var isGuessAnum = evaluateGuess(theGuess);
 		 if (!isGuessAnum){
 		 	var inform = "Please Enter an Integer"
