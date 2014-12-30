@@ -18,10 +18,10 @@ var evaluateGuess= function(guess){
 
 }
 
-var greaterThan100 = function(num){
+var checkRange = function(num){
 
 	var number = parseInt(num);
-	if(number > 100){
+	if((number > 100) || (number <= 0)){
 		return true;
 	}
 	else {
@@ -32,15 +32,16 @@ var greaterThan100 = function(num){
 
 
 var varifyRepeat = function(guess, array){
+	
 	for(var i = 0; i<array.length; i++){
 		if(array[i]===guess){
-			return true
-		}
-		else{
-			return false;
+			return true;
 		}
 	}
-}
+	return false;
+		
+	}
+
 
 
 
@@ -77,15 +78,22 @@ $(document).ready(function(){
 		var theGuess = $("form #userGuess").val();
 		if(theGuess.length > 0){
 		 var isGuessAnum = evaluateGuess(theGuess);
-		 if(isGuessAnum){
-			var tooLarge = greaterThan100(theGuess);
+		 if (!isGuessAnum){
+		 	var inform = "Please Enter an Integer"
+			$("#feedback").text(inform);
+			$("form#userGuess").val("");
+			$("form#userGuess").focus();
+		 }
+		 else{
+			var notInRange = checkRange(theGuess);
 			var isRepeated = varifyRepeat(theGuess, arr);
 
-			if(tooLarge){
+			if(notInRange){
 
 				var message = "Must be from 1 to 100";
 				$("#feedback").text(message);
 				$("#userGuess").val("");
+				$("#userGuess").focus();
 			}
 
 
@@ -95,7 +103,7 @@ $(document).ready(function(){
 				repeatMsg = "Do Not Repeat Your Guess"
 		  		$("#feedback").text(repeatMsg);
 		  		$("form #userGuess").val("");
-
+		  		$("#userGuess").focus();
 		  		
 			  }
 			else{
@@ -110,13 +118,13 @@ $(document).ready(function(){
 
 			  }
 
-			 }
+		  }
 				
-		 else{
-			var inform = "Please Enter an Integer"
-			$("#feedback").text(inform);
-			$("#userGuess").val("");
-		   }
+		// else{
+			//var inform = "Please Enter an Integer"
+			//$("#feedback").text(inform);
+			//$("form#userGuess").val("");
+		  // }
 		 
 		}
 		
@@ -141,7 +149,16 @@ $(document).ready(function(){
   	});
 
   	$(".new").on('click', function(){
-  			location.reload();
+  		secretNum = newGame();
+  		arr = [];
+  		count = 1;
+  		$("#feedback").text("Make your Guess!");
+  		$("#guessList").children("li").fadeOut(300, function() { $(this).remove().slideUp() });
+  		$("#count").text(0);
+  		$("form #userGuess").focus();
+  		
+  	
+  		
   	});
 
   
