@@ -76,15 +76,19 @@ $(document).ready(function(){
 	var arr =[];
 	$('form #guessButton').on('click',function(){
 		var theGuess = $("form #userGuess").val();
-		if(theGuess.trim().length > 0){
-		 var isGuessAnum = evaluateGuess(theGuess);
-		 if (!isGuessAnum){
+		if(theGuess.trim().length <0){
+			var alertMsg = "Please Enter A Value";
+			$("#feedback").text(alertMsg);
+			$("#userGuess").val("");
+		}
+	    var isGuessAnum = evaluateGuess(theGuess);
+		if (!isGuessAnum){
 		 	var inform = "Please Enter an Integer"
 			$("#feedback").text(inform);
 			$("form#userGuess").val("");
 			$("form#userGuess").focus();
 		 }
-		 else{
+		else{
 			var notInRange = checkRange(theGuess);
 			var isRepeated = varifyRepeat(theGuess, arr);
 
@@ -118,7 +122,7 @@ $(document).ready(function(){
 
 			  }
 
-		  }
+		}
 				
 		// else{
 			//var inform = "Please Enter an Integer"
@@ -126,14 +130,14 @@ $(document).ready(function(){
 			//$("form#userGuess").val("");
 		  // }
 		 
-		}
+		//}
 		
-		else{
-			var alertMsg = "Please Enter A Value";
-			$("#feedback").text(alertMsg);
-			$("#userGuess").val("");
+		//else{
+			//var alertMsg = "Please Enter A Value";
+			//$("#feedback").text(alertMsg);
+			//$("#userGuess").val("");
 
-		 }
+		 //}
 
 	});
 
