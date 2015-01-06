@@ -5,7 +5,7 @@ var newGame = function(){
 
 
 var evaluateGuess= function(guess){
-	var val = parseInt(guess);
+	var val = parseFloat(guess);
 	if(isNaN(val)){
 		return false;
 	}
@@ -74,19 +74,24 @@ $(document).ready(function(){
 	var secretNum = newGame();
 	var count = 1;
 	var arr =[];
+	$("#userGuess").focus();
+	$('form').submit(function(event){
+		event.preventDefault();
+	});
 	$('form #guessButton').on('click',function(){
-		var theGuess = $("form #userGuess").val();
-		if(theGuess.trim().length <0){
+		var theGuess = $("#userGuess").val();
+		if(theGuess.trim().length ===0){
 			var alertMsg = "Please Enter A Value";
 			$("#feedback").text(alertMsg);
 			$("#userGuess").val("");
+			return false;
 		}
 	    var isGuessAnum = evaluateGuess(theGuess);
 		if (!isGuessAnum){
 		 	var inform = "Please Enter an Integer"
 			$("#feedback").text(inform);
-			$("form#userGuess").val("");
-			$("form#userGuess").focus();
+			$("form #userGuess").val("");
+			$("form #userGuess").focus();
 		 }
 		else{
 			var notInRange = checkRange(theGuess);
@@ -114,6 +119,10 @@ $(document).ready(function(){
 
 				arr.push(theGuess);
 				var result = guessRange(theGuess,secretNum);
+				if(result==="You Got It"){
+					$("#userGuess").prop('disabled', true);
+					$('#guessButton').prop('disabled', true);
+				}
 				$("#feedback").text(result);
 				$("#userGuess").val("");
 				$("#count").text(count);
@@ -124,20 +133,7 @@ $(document).ready(function(){
 
 		}
 				
-		// else{
-			//var inform = "Please Enter an Integer"
-			//$("#feedback").text(inform);
-			//$("form#userGuess").val("");
-		  // }
-		 
-		//}
 		
-		//else{
-			//var alertMsg = "Please Enter A Value";
-			//$("#feedback").text(alertMsg);
-			//$("#userGuess").val("");
-
-		 //}
 
 	});
 
@@ -159,6 +155,8 @@ $(document).ready(function(){
   		$("#feedback").text("Make your Guess!");
   		$("#guessList").children("li").fadeOut(300, function() { $(this).remove().slideUp() });
   		$("#count").text(0);
+  		$("#userGuess").prop('disabled', false);
+		$('#guessButton').prop('disabled', false);
   		$("form #userGuess").focus();
   		
   	
